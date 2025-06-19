@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Show Listings</title>
+  <style>
+    nav {
+  background-color: #6c5ce7;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.navbar li a:hover {
+  color: #dcdcdc;
+}
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .show-container, .artist-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .show-card, .artist-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .show-card:hover, .artist-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .show-card h3, .artist-card h4 {
+      margin: 0;
+      font-size: 20px;
+      color: #6c5ce7;
+    }
+
+    .show-card p, .artist-card p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 6px 12px;
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5a4ecf;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+  <ul class="navbar">
+    <li><a href="admin.html">Home</a></li>
+    <li><a href="artist-details.html">Artist Details</a></li>
+    <li><a href="artist-shows.html">Artist Shows</a></li>
+    <li><a href="user-details.html">User Details</a></li>
+    <li><a href="user-bookings.html">User Bookings</a></li>
+  </ul>
+</nav>
+
+
+  <h1>Artist Shows
+  </h1>
+  <div class="show-container" id="showContainer">
+    <!-- Show cards will be inserted here -->
+  </div>
+
+  <script>
+    async function fetchShows() {
+      try {
+        const res = await fetch("http://localhost:3000/api/shows");
+        const shows = await res.json();
+
+        const container = document.getElementById("showContainer");
+        container.innerHTML = "";
+
+        shows.forEach(show => {
+          const card = document.createElement("div");
+          card.className = "show-card";
+
+          card.innerHTML = `
+            <h3>${show.showName}</h3>
+            <p><span class="label">Artist:</span> <span contenteditable="true" id="artist-${show._id}">${show.artistName}</span></p>
+            <p><span class="label">Date:</span> <span contenteditable="true" id="date-${show._id}">${show.date}</span></p>
+            <p><span class="label">Time:</span> <span contenteditable="true" id="start-${show._id}">${show.startTime}</span> - <span contenteditable="true" id="end-${show._id}">${show.endTime}</span></p>
+            <p><span class="label">Seats:</span> <span contenteditable="true" id="seats-${show._id}">${show.seatings}</span></p>
+            <p><span class="label">Price:</span> ₹<span contenteditable="true" id="price-${show._id}">${show.price}</span></p>
+            <p><span class="label">Venue:</span> <span contenteditable="true" id="venue-${show._id}">${show.venue}</span></p>
+            <p><span class="label">Description:</span> <span contenteditable="true" id="desc-${show._id}">${show.description}</span></p>
+
+            <button onclick="deleteShow('${show._id}')">Delete</button>
+            <button onclick="editShow('${show._id}')">Save Edits</button>
+          `;
+
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error fetching shows:", error);
+      }
+    }
+
+    async function deleteShow(id) {
+      if (!confirm("Are you sure you want to delete this show?")) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/shows/${id}`, {
+          method: "DELETE",
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Delete failed");
+        }
+
+        alert("Show deleted successfully");
+        fetchShows();
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("Failed to delete show: " + error.message);
+      }
+    }
+
+    async function editShow(id) {
+      const updatedData = {
+        artistName: document.getElementById(`artist-${id}`).innerText,
+        date: document.getElementById(`date-${id}`).innerText,
+        startTime: document.getElementById(`start-${id}`).innerText,
+        endTime: document.getElementById(`end-${id}`).innerText,
+        seatings: document.getElementById(`seats-${id}`).innerText,
+        price: document.getElementById(`price-${id}`).innerText,
+        venue: document.getElementById(`venue-${id}`).innerText,
+        description: document.getElementById(`desc-${id}`).innerText,
+      };
+
+      const res = await fetch(`http://localhost:3000/api/shows/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (res.ok) {
+        alert("Show updated!");
+      } else {
+        alert("Failed to update show");
+      }
+    }
+
+    async function fetchArtists() {
+      try {
+        const res = await fetch("http://localhost:3000/api/artists");
+        const artists = await res.json();
+
+        const container = document.getElementById("artistContainer");
+        container.innerHTML = "";
+
+        artists.forEach(artist => {
+          const card = document.createElement("div");
+          card.className = "artist-card";
+
+          card.innerHTML = `
+            <h4>${artist.name}</h4>
+            <p><strong>Email:</strong> ${artist.email}</p>
+          `;
+
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error fetching artists:", error);
+      }
+    }
+
+    // Load data
+    fetchShows();
+    fetchArtists();
+  </script>
+
+</body>
+</html>

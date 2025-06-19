@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login / Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #dff9fb, #c7ecee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .auth-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2d3436;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #74b9ff;
+    }
+
+    .toggle-link {
+      margin-top: 15px;
+      display: block;
+      color: #636e72;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: underline;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    #nameField {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-box">
+  <h2 id="form-title">Admin Login</h2>
+
+  <input type="text" id="nameField" placeholder="Full Name" />
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+
+  <button onclick="handleSubmit()">Login</button>
+  <span class="toggle-link" onclick="toggleMode()">Don't have an account? Sign up</span>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+  let isLogin = true;
+
+  function toggleMode() {
+    isLogin = !isLogin;
+
+    document.getElementById("form-title").innerText = isLogin ? "Admin Login" : "Admin Signup";
+    document.querySelector("button").innerText = isLogin ? "Login" : "Signup";
+    document.querySelector(".toggle-link").innerText = isLogin
+      ? "Don't have an account? Sign up"
+      : "Already have an account? Login";
+    document.getElementById("message").innerText = "";
+
+    // Toggle name field visibility
+    document.getElementById("nameField").style.display = isLogin ? "none" : "block";
+  }
+
+  async function handleSubmit() {
+    const name = document.getElementById("nameField").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const messageBox = document.getElementById("message");
+
+    if (!email || !password || (!isLogin && !name)) {
+      messageBox.style.color = "red";
+      messageBox.innerText = "Please fill in all fields.";
+      return;
+    }
+
+    const endpoint = isLogin ? "/api/admin/login" : "/api/admin/signup";
+    const payload = isLogin ? { email, password } : { name, email, password };
+
+    try {
+      const response = await fetch(`http://localhost:3000${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        messageBox.style.color = "green";
+        messageBox.innerText = isLogin ? "Login successful!" : "Account created successfully!";
+
+        if (isLogin) {
+          setTimeout(() => {
+            window.location.href = "admin.html";
+          }, 1000);
+        }
+      } else {
+        messageBox.style.color = "red";
+        messageBox.innerText = data.error || "Something went wrong.";
+      }
+    } catch (error) {
+      messageBox.style.color = "red";
+      messageBox.innerText = "Server error. Please try again.";
+    }
+  }
+</script>
+
+</body>
+</html>

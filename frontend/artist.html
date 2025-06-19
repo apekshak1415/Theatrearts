@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artist Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f3e7e9, #e3eeff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .plus-button {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+    }
+
+    .plus-button:hover {
+      background-color: #5a4fdc;
+    }
+
+    .popup-form {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 25px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1000;
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .popup-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .popup-form input, .popup-form textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .popup-form button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #6c5ce7;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .popup-form button:hover {
+      background: #5a4fdc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="plus-button" onclick="togglePopup()">
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <div class="popup-form" id="popupForm">
+    <h2>Enter Show Details</h2>
+    <form id="showForm">
+      <input type="text" placeholder="Artist Name" required />
+      <input type="text" placeholder="Show Name" required />
+      <input type="date" required />
+      <input type="time" placeholder="Start Time" required />
+      <input type="time" placeholder="End Time" required />
+      <input type="number" placeholder="Number of Seatings" required />
+      <input type="number" placeholder="Price" required />
+      <input type="text" placeholder="Venue" required />
+      <textarea placeholder="Description of the show" rows="4" required></textarea>
+      <button type="submit">Submit Show</button>
+    </form>
+  </div>
+
+  <script>
+    function togglePopup() {
+      const popup = document.getElementById("popupForm");
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
+
+    document.getElementById("showForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const form = this;
+
+      const formData = {
+        artistName: form.elements[0].value,
+        showName: form.elements[1].value,
+        date: form.elements[2].value,
+        startTime: form.elements[3].value,
+        endTime: form.elements[4].value,
+        seatings: form.elements[5].value,
+        price: form.elements[6].value,
+        venue: form.elements[7].value,
+        description: form.elements[8].value,
+      };
+
+      const res = await fetch("http://localhost:3000/api/shows", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        alert("Show submitted successfully!");
+        form.reset();
+        togglePopup();
+      } else {
+        alert("Something went wrong.");
+      }
+    });
+  </script>
+</body>
+</html>
