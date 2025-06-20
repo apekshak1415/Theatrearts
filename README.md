@@ -22,6 +22,7 @@ mongod
 **Step 4:** Start the Backend Server
 Go back to your project terminal and run: cd backend
 > node server.js
+
 You should see:
 Server running on port 3000
 MongoDB connected
