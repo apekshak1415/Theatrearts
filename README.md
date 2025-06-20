@@ -11,17 +11,22 @@ git clone https://github.com/your-username/your-repo-name.gitcd your-repo-name
 
 **Step 2:** Install Node.js Dependencies
 Make sure you’re inside the project folder (where server.js exists):
+
 npm install
-This installs all required packages (like express, mongoose, bcrypt, cors).
+
+>This installs all required packages (like express, mongoose, bcrypt, cors).
 
 ** Step 3:** Start MongoDB Locally
 Open a separate terminal and run:
+
 mongod
-> Make sure MongoDB is running on default port 27017.
+>Make sure MongoDB is running on default port 27017.
 
 **Step 4:** Start the Backend Server
 Go back to your project terminal and run:
+
 cd backend
+
 node server.js
 
 You should see:
