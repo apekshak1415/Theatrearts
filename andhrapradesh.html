@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Burrakatha - Andhra Pradesh's Folk Narrative</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(to right, #1a1a1a, #0d0d0d);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      color: #ffc107;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 20px auto 0;
+    }
+
+    .flashcard-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      padding: 60px 40px;
+      justify-items: center;
+    }
+
+    .flashcard {
+      background-color: #1a1a1a;
+      width: 300px;
+      height: 380px;
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      box-shadow: 0 0 25px rgba(255, 193, 7, 0.1), 0 0 60px rgba(255, 193, 7, 0.05);
+    }
+
+    .flashcard:hover .card-inner {
+      transform: rotateY(180deg);
+      box-shadow: 0 0 30px rgba(255, 193, 7, 0.6), 0 0 80px rgba(255, 193, 7, 0.4);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-front {
+      background-color: #222;
+      color: #ffc107;
+      position: relative;
+    }
+
+    .card-front img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .card-front .label {
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .card-back {
+      background-color: #333;
+      color: #fff;
+      transform: rotateY(180deg);
+      padding: 20px;
+      font-size: 0.95rem;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <h1>Burrakatha</h1>
+    <p class="intro-paragraph">
+      Burrakatha is a traditional Telugu folk art that blends storytelling, music, and performance. It is performed by a trio who narrate historical, mythological, or social themes in a dramatic format. With rhythmic narration, expressive dialogue, and commentary, Burrakatha plays a major role in spreading awareness and entertainment in rural Andhra Pradesh.
+    </p>
+  </header>
+
+  <!-- Flashcards Section -->
+  <div class="flashcard-container">
+
+    <!-- Card 1: Origin -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Burra_katha.jpg" alt="Origin" />
+          <div class="label">Origin</div>
+        </div>
+        <div class="card-back">
+          <p>Burrakatha evolved from "Jangam Katha" and became popular in Andhra during the 20th century. It’s rooted in oral tradition, aimed at educating and entertaining villagers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Themes -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://www.ecobasketindia.com/cdn/shop/files/BURRAKATHA.jpg?v=1732104108" alt="Themes" />
+          <div class="label">Themes</div>
+        </div>
+        <div class="card-back">
+          <p>Common themes include stories of Ramayana, Mahabharata, independence movement, and social issues like dowry, illiteracy, and women’s rights.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Performance Style -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Burrakatha_performance_in_Janapada_Jathara_%282019%29_01.jpg" alt="Performance" />
+          <div class="label">Performance</div>
+        </div>
+        <div class="card-back">
+          <p>A lead narrator (Kathakudu) tells the story while the other two artists provide musical rhythm, sound effects, and dialogue-based humor or drama.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Instruments -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://th-i.thgim.com/public/news/national/andhra-pradesh/x13dlp/article29128160.ece/alternates/FREE_1200/19VJPAGEBURRAKATHA" alt="Instruments" />
+          <div class="label">Instruments</div>
+        </div>
+        <div class="card-back">
+          <p>The instruments include tambura (a string instrument), harmonium, and a metal tapping instrument called "burra", which gives the name Burrakatha.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: Costume -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/India_village_musicians.jpg/640px-India_village_musicians.jpg" alt="Costume" />
+          <div class="label">Costume</div>
+        </div>
+        <div class="card-back">
+          <p>Performers wear traditional dhotis, waistbands, and headgear. Their costumes are simple but expressive, allowing ease of movement during performance.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6: Cultural Significance -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Burrakatha_Artists_in_Telangana_Jateeya_Samaikyatha_Vajrotsavalu_%2817_September_2022%29_03.jpg/250px-Burrakatha_Artists_in_Telangana_Jateeya_Samaikyatha_Vajrotsavalu_%2817_September_2022%29_03.jpg" alt="Cultural Impact" />
+          <div class="label">Cultural Impact</div>
+        </div>
+        <div class="card-back">
+          <p>Burrakatha was used during India’s freedom struggle to spread patriotic messages. Even today, it educates and entertains with social relevance in rural Andhra.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

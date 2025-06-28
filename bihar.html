@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bidesia Natya - Bihar's Folk Theatre</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(to right, #1a1a1a, #0d0d0d);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      color: #ffc107;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 20px auto 0;
+    }
+
+    .flashcard-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      padding: 60px 40px;
+      justify-items: center;
+    }
+
+    .flashcard {
+      background-color: #1a1a1a;
+      width: 300px;
+      height: 380px;
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      box-shadow: 0 0 25px rgba(255, 193, 7, 0.1), 0 0 60px rgba(255, 193, 7, 0.05);
+    }
+
+    .flashcard:hover .card-inner {
+      transform: rotateY(180deg);
+      box-shadow: 0 0 30px rgba(255, 193, 7, 0.6), 0 0 80px rgba(255, 193, 7, 0.4);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-front {
+      background-color: #222;
+      color: #ffc107;
+      position: relative;
+    }
+
+    .card-front img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .card-front .label {
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .card-back {
+      background-color: #333;
+      color: #fff;
+      transform: rotateY(180deg);
+      padding: 20px;
+      font-size: 0.95rem;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Bidesia Natya</h1>
+    <p class="intro-paragraph">
+      Bidesia Natya is a folk theatre form of Bihar known for its emotional storytelling, satire, and songs. Created by Bhikhari Thakur in the early 20th century, it reflects the struggles of migration, gender issues, and rural life, making it a powerful voice for Bihar’s marginalized communities.
+    </p>
+  </header>
+
+  <div class="flashcard-container">
+
+    <!-- Origin -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://thetheatretimes.com/wp-content/uploads/2017/04/1.jpeg.jpg" alt="Origin" />
+          <div class="label">Origin</div>
+        </div>
+        <div class="card-back">
+          <p>Founded by Bhikhari Thakur in the early 1900s, Bidesia Natya arose as a people's theatre reflecting the migrant experience in colonial and post-colonial Bihar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Themes -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://thetheatretimes.com/wp-content/uploads/2023/09/featured-image-440x264.jpeg" alt="Themes" />
+          <div class="label">Themes</div>
+        </div>
+        <div class="card-back">
+          <p>Deals with migration, women's loneliness, alcoholism, caste injustice, and changing values—told through folk songs and satire.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Style -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://thetheatretimes.com/wp-content/uploads/2019/01/A-scene-from-Prashanth-Narayanan%E2%80%99s-%E2%80%98Mahasagaram%E2%80%99-Photo-Credit-S-Mahinsha-440x264.jpg" alt="Performance" />
+          <div class="label">Performance</div>
+        </div>
+        <div class="card-back">
+          <p>Bidesia is performed in open spaces with minimal props. A mix of dialogue, music, and improvised humor is used to engage the rural audience.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instruments -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://thetheatretimes.com/wp-content/uploads/2023/09/featured-image-440x264.jpeg" alt="Instruments" />
+          <div class="label">Instruments</div>
+        </div>
+        <div class="card-back">
+          <p>Instruments like harmonium, dholak, manjira, and bansuri support emotional storytelling and folk rhythm in Bidesia performances.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Costume -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://srujanee.blob.core.windows.net/sru-content/images/030c60b9-5912-4bee-a67e-08fc6addb93e" alt="Costume" />
+          <div class="label">Costume</div>
+        </div>
+        <div class="card-back">
+          <p>Performers wear traditional rural attire—dhotis, kurtas, saris—with simple makeup. Sometimes men play female roles using symbolic costumes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cultural Impact -->
+    <div class="flashcard">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXtZX3_W3WHvfPA-liXpYeB_yH5JZDK4_HiA&s" alt="Impact" />
+          <div class="label">Cultural Impact</div>
+        </div>
+        <div class="card-back">
+          <p>Bidesia became the cultural voice of migrant laborers and continues to influence Bhojpuri films, street plays, and community storytelling.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
