@@ -4,157 +4,428 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Artist Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #f3e7e9, #e3eeff);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
+      background-color: #1e1e2f;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
     }
 
-    .plus-button {
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: -220px;
+      background-color: #2b2b3c;
+      padding-top: 60px;
+      transition: all 0.3s ease;
+      z-index: 1050;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ccc;
+      padding: 15px 25px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #3d3d5c;
+      color: #fff;
+    }
+
+    .hamburger {
       position: fixed;
       bottom: 30px;
       left: 30px;
-      background-color: #6c5ce7;
+      background-color: #34344a;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      font-size: 22px;
+      border-radius: 6px;
+      z-index: 1060;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .modal-content {
+      background-color: #2a2a3b;
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: background 0.3s;
     }
 
-    .plus-button:hover {
-      background-color: #5a4fdc;
-    }
-
-    .popup-form {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 25px 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      display: none;
-      z-index: 1000;
-      width: 90%;
-      max-width: 500px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .popup-form h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .popup-form form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .popup-form input, .popup-form textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .popup-form button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: #6c5ce7;
+    .form-control {
+      background-color: #1e1e2f;
       color: white;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
+      border: 1px solid #444;
     }
 
-    .popup-form button:hover {
-      background: #5a4fdc;
+    .form-control::placeholder {
+      color: #aaa;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -60%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
+    .btn-submit {
+      background-color: #ffc107;
+      border: none;
     }
+
+    .btn-submit:hover {
+      background-color: #ffc107;
+    }
+    .label {
+  font-weight: bold;
+  color: #333; /* change from light gray to a darker shade */
+}
+.dashboard-center {
+  padding: 30px;
+}
+
+
+
   </style>
 </head>
 <body>
 
-  <button class="plus-button" onclick="togglePopup()">
-    <i class="fas fa-plus"></i>
-  </button>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a onclick="showUploadModal()">Upload</a>
+    <a onclick="showUserBookings()">User Bookings</a>
+    <a onclick="showMyShows()">My Shows</a>
+    <a onclick="showMyProfile()">My Profile</a>
 
-  <div class="popup-form" id="popupForm">
-    <h2>Enter Show Details</h2>
-    <form id="showForm">
-      <input type="text" placeholder="Artist Name" required />
-      <input type="text" placeholder="Show Name" required />
-      <input type="date" required />
-      <input type="time" placeholder="Start Time" required />
-      <input type="time" placeholder="End Time" required />
-      <input type="number" placeholder="Number of Seatings" required />
-      <input type="number" placeholder="Price" required />
-      <input type="text" placeholder="Venue" required />
-      <textarea placeholder="Description of the show" rows="4" required></textarea>
-      <button type="submit">Submit Show</button>
-    </form>
   </div>
 
-  <script>
-    function togglePopup() {
-      const popup = document.getElementById("popupForm");
-      popup.style.display = popup.style.display === "block" ? "none" : "block";
+  <!-- Hamburger Button -->
+  <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+  <!-- Main Content Area -->
+<div id="mainContent" class="dashboard-center">
+  <h2 id="dashboardWelcome">Welcome to your dashboard</h2>
+  <p>Click the <strong>menu</strong> to access features.</p>
+</div>
+
+
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <h5 class="modal-title text-center mb-3">Change Password</h5>
+      <form id="changePasswordForm">
+        <input type="password" class="form-control mb-2" placeholder="Current Password" required />
+        <input type="password" class="form-control mb-2" placeholder="New Password" required />
+        <button type="submit" class="btn btn-submit w-100">Update Password</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <!-- Upload Modal -->
+  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4">
+        <h5 class="modal-title text-center mb-3" id="uploadModalLabel">Upload Show Details</h5>
+       <form id="showForm" enctype="multipart/form-data">
+
+          <input type="text" name="artistName" class="form-control mb-2" placeholder="Artist Name" required />
+<input type="text" name="showName" class="form-control mb-2" placeholder="Show Name" required />
+<input type="date" name="date" class="form-control mb-2" required />
+<input type="time" name="startTime" class="form-control mb-2" required />
+<input type="time" name="endTime" class="form-control mb-2" required />
+<input type="number" name="seatings" class="form-control mb-2" placeholder="Number of Seatings" required />
+<input type="number" name="price" class="form-control mb-2" placeholder="Price" required />
+<input type="text" name="venue" class="form-control mb-2" placeholder="Venue" required />
+<textarea name="description" class="form-control mb-3" placeholder="Description of the show" rows="3" required></textarea>
+<input type="file" name="image" class="form-control mb-3" id="imageInput" accept="image/*" required />
+
+
+          <button type="submit" class="btn btn-submit w-100">Submit Show</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  let uploadModal;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    uploadModal = new bootstrap.Modal(document.getElementById("uploadModal"));
+
+  document.getElementById("showForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = this;
+  const formData = new FormData(form);
+  formData.append("artistEmail", localStorage.getItem("artistEmail"));
+
+  try {
+    const res = await fetch("http://localhost:3000/api/shows", {
+  method: "POST",
+  body: formData
+});
+
+// ✅ Don't do res.json() blindly:
+if (res.ok) {
+  alert("Show submitted successfully!");
+  form.reset();
+  uploadModal.hide();
+} else {
+  const errorText = await res.text(); // ⬅ get plain response
+  console.error("Backend Error:", errorText);
+  alert("Submission failed. Check console for details.");
+}
+
+  } catch (err) {
+    console.error("Error submitting form:", err);
+    alert("Something went wrong while submitting the form.");
+  }
+});
+
+  });
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+  }
+
+  function showUploadModal() {
+    uploadModal.show();
+  }
+  async function showMyShows() {
+  const artistEmail = localStorage.getItem("artistEmail");
+  const mainContent = document.getElementById("mainContent");
+
+  if (!artistEmail) {
+    alert("Artist email not found. Please log in again.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/artist/shows?email=${artistEmail}`);
+    const shows = await res.json();
+
+    if (!shows.length) {
+      mainContent.innerHTML = "<h4>No shows uploaded yet.</h4>";
+      return;
     }
 
-    document.getElementById("showForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const form = this;
+    let html = `<h2>My Shows</h2><div class="show-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">`;
 
-      const formData = {
-        artistName: form.elements[0].value,
-        showName: form.elements[1].value,
-        date: form.elements[2].value,
-        startTime: form.elements[3].value,
-        endTime: form.elements[4].value,
-        seatings: form.elements[5].value,
-        price: form.elements[6].value,
-        venue: form.elements[7].value,
-        description: form.elements[8].value,
-      };
+    shows.forEach(show => {
+  html += `
+    <div class="show-card" style="background-color: 2b2b3c; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <h3 style="color: #ffc107;">${show.showName}</h3>
+      <img src="http://localhost:3000/uploads/${show.imageUrl}" alt="Show Image" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:12px;" />
 
-      const res = await fetch("http://localhost:3000/api/shows", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      <p><span class="label" style="color:white;"><strong>Artist:</strong></span> <span contenteditable="true" id="artist-${show._id}" style="color:white;">${show.artistName}</span></p>
 
-      if (res.ok) {
-        alert("Show submitted successfully!");
-        form.reset();
-        togglePopup();
-      } else {
-        alert("Something went wrong.");
-      }
+      <p><span class="label" style="color:white;"><strong>Date:</strong></span> <span contenteditable="true" id="date-${show._id}" style="color:white;">${show.date}</span></p>
+      <p><span class="label" style="color:white;"><strong>Time:</strong></span> <span contenteditable="true" id="start-${show._id}" style="color:white;">${show.startTime}</span> - <span contenteditable="true" id="end-${show._id}" style="color:white;">${show.endTime}</span></p>
+      <p><span class="label" style="color:white;"><strong>Seats:</strong></span> <span contenteditable="true" id="seats-${show._id}" style="color:white;">${show.seatings}</span></p>
+      <p><span class="label" style="color:white;"><strong>Price:</strong></span> ₹<span contenteditable="true" id="price-${show._id}" style="color:white;">${show.price}</span></p>
+      <p><span class="label" style="color:white;"><strong>Venue:</strong></span> <span contenteditable="true" id="venue-${show._id}" style="color:white;">${show.venue}</span></p>
+      <p><span class="label" style="color:white;"><strong>Description:</strong></span> <span contenteditable="true" id="desc-${show._id}" style="color:white;">${show.description}</span></p>
+
+      <button style="margin-top:10px; margin-right:10px; background-color:#ffc107; border:none; color:white; padding:6px 12px; border-radius:6px;" onclick="deleteShow('${show._id}')">Delete</button>
+      <button style="margin-top:10px; background-color:#ffc107; border:none; color:white; padding:6px 12px; border-radius:6px;" onclick="editShow('${show._id}')">Save Edits</button>
+    </div>`;
+});
+
+
+    html += `</div>`;
+    mainContent.innerHTML = html;
+  } catch (err) {
+    console.error("Failed to load shows:", err);
+    mainContent.innerHTML = "<p class='text-danger'>Failed to load your shows.</p>";
+  }
+}
+async function deleteShow(id) {
+  if (!confirm("Are you sure you want to delete this show?")) return;
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/shows/${id}`, {
+      method: "DELETE"
     });
-  </script>
+
+    if (res.ok) {
+      alert("Show deleted successfully");
+      showMyShows(); // Refresh
+    } else {
+      const error = await res.json();
+      alert(error.error || "Failed to delete show");
+    }
+  } catch (err) {
+    console.error("Delete error:", err);
+    alert("Server error while deleting show");
+  }
+}
+
+async function editShow(id) {
+  const updatedData = {
+    artistName: document.getElementById(`artist-${id}`).innerText,
+    date: document.getElementById(`date-${id}`).innerText,
+    startTime: document.getElementById(`start-${id}`).innerText,
+    endTime: document.getElementById(`end-${id}`).innerText,
+    seatings: document.getElementById(`seats-${id}`).innerText,
+    price: document.getElementById(`price-${id}`).innerText,
+    venue: document.getElementById(`venue-${id}`).innerText,
+    description: document.getElementById(`desc-${id}`).innerText,
+  };
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/shows/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (res.ok) {
+      alert("Show updated successfully!");
+    } else {
+      const error = await res.json();
+      alert(error.error || "Failed to update show");
+    }
+  } catch (err) {
+    console.error("Update error:", err);
+    alert("Server error while updating show");
+  }
+}
+
+async function showMyProfile() {
+  const email = localStorage.getItem("artistEmail");
+  const mainContent = document.getElementById("mainContent");
+
+  if (!email) {
+    alert("Artist email not found.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/artists`);
+    const artists = await res.json();
+    const artist = artists.find(a => a.email === email);
+
+    if (!artist) {
+      mainContent.innerHTML = "<p class='text-danger'>Profile not found.</p>";
+      return;
+    }
+
+    mainContent.innerHTML = `
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card p-4 bg-dark text-light shadow-sm" style="border-radius: 12px; width: 100%; max-width: 400px;">
+      <h4 class="text-center">My Profile</h4>
+      <p><strong>Name:</strong> ${artist.name}</p>
+      <p><strong>Email:</strong> ${artist.email}</p>
+      <p><strong>Password:</strong> ********</p>
+      <button class="btn btn-warning btn-sm w-100 mt-2" onclick="openPasswordModal()">Change Password</button>
+      <button class="btn btn-danger btn-sm w-100 mt-2" onclick="logout()">Logout</button>
+    </div>
+  </div>
+`;
+
+
+  } catch (err) {
+    console.error("Error loading profile:", err);
+    mainContent.innerHTML = "<p class='text-danger'>Failed to load profile.</p>";
+  }
+}
+
+function openPasswordModal() {
+  const modal = new bootstrap.Modal(document.getElementById("changePasswordModal"));
+  modal.show();
+}
+
+document.getElementById("changePasswordForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = localStorage.getItem("artistEmail");
+  const currentPass = this.elements[0].value;
+  const newPass = this.elements[1].value;
+
+  try {
+    const res = await fetch("http://localhost:3000/api/artist/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, currentPassword: currentPass, newPassword: newPass }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Password updated successfully!");
+      const modal = bootstrap.Modal.getInstance(document.getElementById("changePasswordModal"));
+      modal.hide();
+      this.reset();
+    } else {
+      alert(data.error || "Failed to update password.");
+    }
+  } catch (err) {
+    console.error("Password change error:", err);
+    alert("Server error during password update.");
+  }
+});
+ function logout() {
+    localStorage.removeItem("artistEmail"); // clear stored email
+    window.location.href = "artist-auth.html"; // redirect to login
+  }
+
+  async function showUserBookings() {
+  const artistEmail = localStorage.getItem("artistEmail");
+  const mainContent = document.getElementById("mainContent");
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/bookings/artist-bookings?email=${artistEmail}`);
+    const bookings = await res.json();
+
+    if (!bookings.length) {
+      mainContent.innerHTML = "<h4>No user bookings for your shows.</h4>";
+      return;
+    }
+
+    const totals = {};
+    bookings.forEach(b => {
+      const showId = b.showId._id;
+      totals[showId] = (totals[showId] || 0) + b.seats;
+    });
+
+    let html = `<h2>User Bookings for Your Shows</h2><div class="booking-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">`;
+
+    bookings.forEach(b => {
+      const show = b.showId;
+      html += `
+        <div class="booking-card" style="background: #2b2b3c; padding: 20px; border-radius: 10px; color: white;">
+          <h4 style="color:#ffc107;">${show.showName}</h4>
+          <p><strong>User:</strong> ${b.name}</p>
+          <p><strong>Email:</strong> ${b.email}</p>
+          <p><strong>Seats Booked:</strong> ${b.seats}</p>
+          <p><strong>Date:</strong> ${show.date}</p>
+          <p><strong>Time:</strong> ${show.startTime} - ${show.endTime}</p>
+          <p><strong>Venue:</strong> ${show.venue}</p>
+          <p><strong>Total Seats Booked for this Show:</strong> ${totals[show._id]}</p>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    mainContent.innerHTML = html;
+
+  } catch (err) {
+    console.error("Error fetching artist bookings:", err);
+    mainContent.innerHTML = "<p class='text-danger'>Failed to load user bookings.</p>";
+  }
+}
+
+
+</script>
+
 </body>
 </html>

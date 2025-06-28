@@ -5,9 +5,9 @@
   <title>Artist Login / Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #fceabb, #f8b500);
+      background-color: #1e1e2f;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -16,17 +16,17 @@
     }
 
     .auth-box {
-      background-color: white;
+      background-color: #2b2b3c;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      width: 340px;
+      width: 320px;
       text-align: center;
     }
 
     h2 {
       margin-bottom: 20px;
-      color: #2d3436;
+      color: white;
     }
 
     input {
@@ -38,7 +38,7 @@
     }
 
     button {
-      background-color: #e17055;
+      background-color: #ffc107;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -48,13 +48,13 @@
     }
 
     button:hover {
-      background-color: #fdcb6e;
+      background-color: #ffc107;
     }
 
     .toggle-link {
       margin-top: 15px;
       display: block;
-      color: #636e72;
+      color: white;
       cursor: pointer;
       font-size: 14px;
       text-decoration: underline;
@@ -62,7 +62,11 @@
 
     .message {
       margin-top: 10px;
-      color: red;
+      font-weight: bold;
+    }
+
+    #nameField {
+      display: none;
     }
   </style>
 </head>
@@ -123,8 +127,11 @@
       document.getElementById("message").innerText = data.message;
 
       if (isLogin) {
+        localStorage.setItem("artistEmail", email); // Add this right after successful login
         setTimeout(() => {
           alert("Redirecting to artist shows page");
+          
+
           // You can change this to your actual artist page
           window.location.href = "artist.html";
         }, 1000);
@@ -134,6 +141,8 @@
       document.getElementById("message").innerText = data.error || "Something went wrong";
     }
   }
+
+  
 </script>
 
 </body>

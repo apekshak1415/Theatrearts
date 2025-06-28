@@ -5,43 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel - Show Listings</title>
   <style>
-    nav {
-  background-color: #6c5ce7;
-  padding: 10px 0;
-  margin-bottom: 20px;
-}
-
-.navbar {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+    * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-  transition: color 0.3s;
-}
+   body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e2f;
+      color: #f0f0f0;
 
-.navbar li a:hover {
-  color: #dcdcdc;
-}
+    }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
+    nav {
+      background-color: #1e1e2f;
+      padding: 12px 0;
+      margin-bottom: 30px;
+    }
+
+    .navbar {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+    }
+
+    .navbar li a {
+      color: #ffc107;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .navbar li a:hover {
+      color: #ffc107;
     }
 
     h1, h2 {
       text-align: center;
-      color: #333;
+      color: #ffc107;
       margin-bottom: 20px;
     }
 
@@ -53,7 +59,7 @@
     }
 
     .show-card, .artist-card {
-      background-color: white;
+      background-color: #2b2b3c;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -67,13 +73,13 @@
     .show-card h3, .artist-card h4 {
       margin: 0;
       font-size: 20px;
-      color: #6c5ce7;
+      color: white;
     }
 
     .show-card p, .artist-card p {
       margin: 6px 0;
       font-size: 14px;
-      color: #333;
+      color: white;
     }
 
     .label {
@@ -84,15 +90,15 @@
       margin-top: 10px;
       margin-right: 10px;
       padding: 6px 12px;
-      background-color: #6c5ce7;
-      color: white;
+      background-color: #ffc107;
+      color: #222;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
 
     button:hover {
-      background-color: #5a4ecf;
+      background-color: #ffc107;
     }
   </style>
 </head>
@@ -129,6 +135,7 @@
 
           card.innerHTML = `
             <h3>${show.showName}</h3>
+            <img src="http://localhost:3000/uploads/${show.imageUrl}" alt="Show Image" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin:10px 0;" />
             <p><span class="label">Artist:</span> <span contenteditable="true" id="artist-${show._id}">${show.artistName}</span></p>
             <p><span class="label">Date:</span> <span contenteditable="true" id="date-${show._id}">${show.date}</span></p>
             <p><span class="label">Time:</span> <span contenteditable="true" id="start-${show._id}">${show.startTime}</span> - <span contenteditable="true" id="end-${show._id}">${show.endTime}</span></p>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rotating Carousel Gallery</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <style>
+      body { margin: 0; }
+      #info {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-family: sans-serif;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info"><h2>🎭 Theatre Poster Carousel</h2></div>
+    <a-scene background="color: #1e1e2f">
+
+      <!-- Camera -->
+      <a-entity camera position="0 1.6 5" look-controls wasd-controls-enabled="false"></a-entity>
+
+      <!-- Light -->
+      <a-entity light="type: ambient; intensity: 1"></a-entity>
+      <a-entity light="type: directional; intensity: 0.5" position="1 1 1"></a-entity>
+
+      <!-- Rotating Platform -->
+      <a-entity id="carousel" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+        <!-- Posters placed in a circular layout -->
+        <a-plane src="https://i.pinimg.com/736x/da/20/19/da20199db5912616b01af06a877f4e8d.jpg height="2" width="1.3" position="0 1.6 -3" rotation="0 0 0"></a-plane>
+        <a-plane src="poster2.jpg" height="2" width="1.3" position="2.6 1.6 -2" rotation="0 -60 0"></a-plane>
+        <a-plane src="poster3.jpg" height="2" width="1.3" position="3 1.6 0" rotation="0 -90 0"></a-plane>
+        <a-plane src="poster4.jpg" height="2" width="1.3" position="2.6 1.6 2" rotation="0 -120 0"></a-plane>
+        <a-plane src="poster5.jpg" height="2" width="1.3" position="0 1.6 3" rotation="0 -180 0"></a-plane>
+        <a-plane src="poster6.jpg" height="2" width="1.3" position="-2.6 1.6 2" rotation="0 -240 0"></a-plane>
+        <a-plane src="poster7.jpg" height="2" width="1.3" position="-3 1.6 0" rotation="0 -270 0"></a-plane>
+        <a-plane src="poster8.jpg" height="2" width="1.3" position="-2.6 1.6 -2" rotation="0 -300 0"></a-plane>
+      </a-entity>
+
+      <!-- Ground -->
+      <a-plane rotation="-90 0 0" width="30" height="30" color="#2b2b3c"></a-plane>
+    </a-scene>
+  </body>
+</html>
